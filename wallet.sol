@@ -1,18 +1,30 @@
 //SPDX-License-Identifier:MIT
 pragma solidity ^0.8.0;
-contract Wallet{
-    uint public Asset; //Total Assets traded
-    function Deposit()public payable{
-        Asset+=msg.value;
+contract Example{
+    mapping(address=>uint) public User;
+
+    function Deposit()payable public{
+        User[msg.sender]+=msg.value;
     }
-    function WalletBalance()public view returns(uint){
-        return address(this).balance;
+
+    function Withdraw()public payable{
+        uint data=User[msg.sender];
+        User[msg.sender]=0;
+        payable(msg.sender).transfer(data);
 
     }
-    function WithdrawAll()public{
-        payable(msg.sender).transfer(WalletBalance());
+
+    function Send(address payable _user) public{
+
+        uint value=User[msg.sender];
+        User[msg.sender]=0;
+        _user.transfer(value);
+
     }
-    function PayotherAll(address payable to)public{
-        to.transfer(WalletBalance());
+
+    function ContractBalance() public view returns(uint){
+
+        return address(this).balance; 
     }
+
 }
