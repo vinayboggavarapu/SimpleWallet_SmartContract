@@ -1,11 +1,13 @@
 //SPDX-License-Identifier:MIT
 pragma solidity ^0.8.0;
+
 contract defineOwner{
     address owner;
     constructor(){
         owner=msg.sender;
     }
 }
+
 contract Wallet is defineOwner{    //Inheritence i.e using defineOwner as base contract
     mapping(address=>uint) public user;
     uint price=1 ether;
